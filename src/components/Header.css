@@ -1,0 +1,53 @@
+.header {
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 8px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-logo {
+  width: 40px;
+  height: 40px;
+}
+
+.header-title {
+  font-size: 22px;
+  font-weight: 400;
+  color: #5f6368;
+  letter-spacing: 0.25px;
+}
+
+.search-container {
+  flex-grow: 1; /* Membuat container mengambil sisa ruang */
+  display: flex;
+  justify-content: center; /* Pusatkan input di tengah */
+}
+
+.search-input {
+  width: 100%;
+  max-width: 720px; /* Batasi lebar maksimum input */
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: #f1f3f4;
+  outline: none;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.search-input:focus {
+  background-color: #fff;
+  border-color: #fbc02d;
+  box-shadow: 0 0 0 1px #fbc02d;
+}
