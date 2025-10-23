@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Note.css';
 
-function Note({ note, updateNote, deleteNote }) {
+function Note({ note, updateNote, deleteNote, togglePin }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(note.title);
   const [editContent, setEditContent] = useState(note.content);
@@ -28,7 +28,28 @@ function Note({ note, updateNote, deleteNote }) {
   };
 
   return (
-    <div className="note">
+    <div className={`note ${note.isPinned ? 'pinned' : ''}`}>
+      <div className="note-pin-wrapper">
+        <button
+          className="note-pin"
+          onClick={(e) => {
+            e.stopPropagation();
+            togglePin(note.id);
+          }}
+          title={note.isPinned ? "Unpin note" : "Pin note"}
+        >
+          {note.isPinned ? (
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="gold">
+              <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2z" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2z" />
+            </svg>
+          )}
+        </button>
+      </div>
+
       {isEditing ? (
         <div className="note-edit">
           <input
@@ -47,12 +68,8 @@ function Note({ note, updateNote, deleteNote }) {
             rows={4}
           />
           <div className="note-edit-actions">
-            <button onClick={handleSave} className="note-button note-button-save">
-              Save
-            </button>
-            <button onClick={handleCancel} className="note-button note-button-cancel">
-              Cancel
-            </button>
+            <button onClick={handleSave} className="note-button note-button-save">Save</button>
+            <button onClick={handleCancel} className="note-button note-button-cancel">Cancel</button>
           </div>
         </div>
       ) : (

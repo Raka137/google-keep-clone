@@ -6,16 +6,11 @@ import "./App.css";
 
 function App() {
   const [notes, setNotes] = useState([]);
-
-  // === BAGIAN BARU: State untuk Pencarian ===
   const [searchTerm, setSearchTerm] = useState("");
-  // === AKHIR BAGIAN BARU ===
 
   useEffect(() => {
     const savedNotes = localStorage.getItem("keepNotes");
-    if (savedNotes) {
-      setNotes(JSON.parse(savedNotes));
-    }
+    if (savedNotes) setNotes(JSON.parse(savedNotes));
   }, []);
 
   useEffect(() => {
@@ -28,6 +23,7 @@ function App() {
       title: noteData.title,
       content: noteData.content,
       createdAt: new Date().toISOString(),
+      isPinned: false,
     };
     setNotes([newNote, ...notes]);
   };
@@ -40,28 +36,35 @@ function App() {
     setNotes(notes.filter((note) => note.id !== id));
   };
 
-  // === BAGIAN BARU: Logika untuk memfilter catatan ===
-  // Variabel ini akan berisi catatan yang sudah difilter atau semua catatan jika searchTerm kosong
+  const togglePin = (id) => {
+    setNotes(
+      notes.map((note) =>
+        note.id === id ? { ...note, isPinned: !note.isPinned } : note
+      )
+    );
+  };
+
   const filteredNotes = notes.filter(
     (note) =>
       note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       note.content.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  // === AKHIR BAGIAN BARU ===
+
+  const sortedNotes = [
+    ...filteredNotes.filter((n) => n.isPinned),
+    ...filteredNotes.filter((n) => !n.isPinned),
+  ];
 
   return (
     <div className="app">
-      {/* Kirim state pencarian sebagai props ke Header */}
       <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-
       <main className="app-main">
         <NoteForm addNote={addNote} />
-
-        {/* Gunakan filteredNotes (bukan notes) untuk ditampilkan di NotesList */}
         <NotesList
-          notes={filteredNotes}
+          notes={sortedNotes}
           updateNote={updateNote}
           deleteNote={deleteNote}
+          togglePin={togglePin}
         />
       </main>
     </div>
