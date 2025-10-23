@@ -10,7 +10,12 @@ function App() {
 
   useEffect(() => {
     const savedNotes = localStorage.getItem("keepNotes");
-    if (savedNotes) setNotes(JSON.parse(savedNotes));
+    if (savedNotes) {
+      const parsed = JSON.parse(savedNotes);
+      // Pastikan setiap note punya properti color (fallback ke putih)
+      const withColor = parsed.map((n) => ({ color: "#fff", ...n }));
+      setNotes(withColor);
+    }
   }, []);
 
   useEffect(() => {
@@ -22,6 +27,7 @@ function App() {
       id: Date.now(),
       title: noteData.title,
       content: noteData.content,
+      color: noteData.color || "#fff",
       createdAt: new Date().toISOString(),
       isPinned: false,
     };

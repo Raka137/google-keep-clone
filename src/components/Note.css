@@ -149,3 +149,40 @@
   border: 2px solid #f1c40f;
   box-shadow: 0 0 10px rgba(241, 196, 15, 0.3);
 }
+
+.color-palette {
+  display: flex;
+  gap: 6px;
+  padding: 8px 0;
+}
+
+.color-palette.small {
+  padding: 0;
+}
+
+.color-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.12);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s;
+}
+
+.color-palette.small .color-swatch {
+  width: 20px;
+  height: 20px;
+}
+
+.color-swatch.selected {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+}
+
+.note-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}

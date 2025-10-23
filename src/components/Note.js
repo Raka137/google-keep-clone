@@ -1,16 +1,29 @@
 import React, { useState } from 'react';
 import './Note.css';
 
+const COLORS = [
+  "#fff",
+  "#ffeb3b", 
+  "#ffc107",
+  "#ff8a65",
+  "#aed581", 
+  "#80deea",
+  "#b39ddb",
+  "#f8bbd0",
+];
+
 function Note({ note, updateNote, deleteNote, togglePin }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(note.title);
   const [editContent, setEditContent] = useState(note.content);
+  const [editColor, setEditColor] = useState(note.color || '#fff');
 
   const handleSave = () => {
     updateNote(note.id, {
       ...note,
       title: editTitle,
       content: editContent,
+      color: editColor,
     });
     setIsEditing(false);
   };
@@ -18,6 +31,7 @@ function Note({ note, updateNote, deleteNote, togglePin }) {
   const handleCancel = () => {
     setEditTitle(note.title);
     setEditContent(note.content);
+    setEditColor(note.color || '#fff');
     setIsEditing(false);
   };
 
@@ -27,8 +41,19 @@ function Note({ note, updateNote, deleteNote, togglePin }) {
     }
   };
 
+  const handleColorChange = (color) => {
+    if (isEditing) {
+      setEditColor(color);
+    } else {
+      updateNote(note.id, { ...note, color });
+    }
+  };
+
   return (
-    <div className={`note ${note.isPinned ? 'pinned' : ''}`}>
+    <div 
+      className={`note ${note.isPinned ? 'pinned' : ''}`}
+      style={{ backgroundColor: isEditing ? editColor : note.color || '#fff' }}
+    >
       <div className="note-pin-wrapper">
         <button
           className="note-pin"
@@ -67,6 +92,20 @@ function Note({ note, updateNote, deleteNote, togglePin }) {
             className="note-edit-textarea"
             rows={4}
           />
+          <div className="color-palette">
+            {COLORS.map((color) => (
+              <button
+                key={color}
+                className={`color-swatch ${color === editColor ? 'selected' : ''}`}
+                style={{ backgroundColor: color }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleColorChange(color);
+                }}
+                title={`Change to ${color}`}
+              />
+            ))}
+          </div>
           <div className="note-edit-actions">
             <button onClick={handleSave} className="note-button note-button-save">Save</button>
             <button onClick={handleCancel} className="note-button note-button-cancel">Cancel</button>
@@ -77,6 +116,20 @@ function Note({ note, updateNote, deleteNote, togglePin }) {
           {note.title && <h3 className="note-title">{note.title}</h3>}
           <p className="note-content">{note.content}</p>
           <div className="note-actions">
+            <div className="color-palette small">
+              {COLORS.map((color) => (
+                <button
+                  key={color}
+                  className={`color-swatch ${color === (note.color || '#fff') ? 'selected' : ''}`}
+                  style={{ backgroundColor: color }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleColorChange(color);
+                  }}
+                  title={`Change to ${color}`}
+                />
+              ))}
+            </div>
             <button
               onClick={(e) => {
                 e.stopPropagation();
