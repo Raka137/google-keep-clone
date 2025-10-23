@@ -40,3 +40,37 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.note-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    cursor: pointer;
+}
+
+.note-modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    cursor: default;
+}
+
+.note-modal-image {
+    width: auto;
+    height: auto;
+    max-width: 80vw;   /* ⬅️ lebar maksimal 80% layar */
+    max-height: 80vh;  /* ⬅️ tinggi maksimal 80% layar */
+    object-fit: contain;
+    display: block;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease-in-out;
+}
+
+.note-modal-image:hover {
+    transform: scale(1.02); /* efek dikit biar smooth pas hover */
+}
+

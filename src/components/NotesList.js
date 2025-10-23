@@ -2,7 +2,7 @@ import React from "react";
 import Note from "./Note";
 import "./NotesList.css";
 
-function NotesList({ notes, updateNote, deleteNote, togglePin }) {
+function NotesList({ notes, updateNote, deleteNote, togglePin, setSelectedImage }) {
   if (notes.length === 0) {
     return (
       <div className="notes-empty">
@@ -27,6 +27,7 @@ function NotesList({ notes, updateNote, deleteNote, togglePin }) {
             updateNote={updateNote}
             deleteNote={deleteNote}
             togglePin={togglePin}
+            setSelectedImage={setSelectedImage}
           />
         ))}
       </div>
