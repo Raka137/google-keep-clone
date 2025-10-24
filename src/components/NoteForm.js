@@ -10,6 +10,7 @@ const COLORS = [
     "#80deea",
     "#b39ddb",
     "#f8bbd0",
+    "#000",
 ];
 
 function NoteForm({ addNote }) {
@@ -109,7 +110,6 @@ function NoteForm({ addNote }) {
                                 />
                             ))}
                         </div>
-
                         <div className="button-group">
                             <label className="note-upload-label">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">

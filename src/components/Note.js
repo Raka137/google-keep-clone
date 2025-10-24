@@ -10,6 +10,7 @@ const COLORS = [
     "#80deea",
     "#b39ddb",
     "#f8bbd0",
+    "#000"
 ];
 
 function Note({ note, updateNote, deleteNote, togglePin, setSelectedImage }) {
@@ -17,15 +18,26 @@ function Note({ note, updateNote, deleteNote, togglePin, setSelectedImage }) {
     const [editTitle, setEditTitle] = useState(note.title);
     const [editContent, setEditContent] = useState(note.content);
     const [editColor, setEditColor] = useState(note.color || '#fff');
+    const [image, setImage] = useState(null);
 
     const handleSave = () => {
         updateNote(note.id, {
             ...note,
+            image: image,
             title: editTitle,
             content: editContent,
             color: editColor,
         });
         setIsEditing(false);
+    };
+
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => setImage(reader.result);
+            reader.readAsDataURL(file);
+        }
     };
 
     const handleCancel = () => {
@@ -92,6 +104,12 @@ function Note({ note, updateNote, deleteNote, togglePin, setSelectedImage }) {
                         className="note-edit-textarea"
                         rows={4}
                     />
+                    {image && (
+                    <div className="note-image-preview">
+                        <img src={image} alt="preview" className="uploaded-image" />
+                    </div>
+                    )}
+                    
                     <div className="color-palette">
                         {COLORS.map((color) => (
                             <button
@@ -107,6 +125,17 @@ function Note({ note, updateNote, deleteNote, togglePin, setSelectedImage }) {
                         ))}
                     </div>
                     <div className="note-edit-actions">
+                        <label className="note-upload-label">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                            </svg>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                                className="note-upload-input"
+                            />
+                        </label>
                         <button onClick={handleSave} className="note-button note-button-save">Save</button>
                         <button onClick={handleCancel} className="note-button note-button-cancel">Cancel</button>
                     </div>
@@ -115,8 +144,6 @@ function Note({ note, updateNote, deleteNote, togglePin, setSelectedImage }) {
                 <div className="note-view" onClick={() => setIsEditing(true)}>
                     {note.title && <h3 className="note-title">{note.title}</h3>}
                     <p className="note-content">{note.content}</p>
-
-                    {/* 🖼️ Gambar note */}
                     {note.image && (
                         <div className="note-image" onClick={(e) => e.stopPropagation()}>
                             <img

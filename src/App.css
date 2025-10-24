@@ -49,28 +49,28 @@
     justify-content: center;
     align-items: center;
     z-index: 999;
-    cursor: pointer;
 }
 
 .note-modal-content {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     max-width: 90%;
     max-height: 90%;
-    cursor: default;
+    pointer-events: none;
 }
 
 .note-modal-image {
-    width: auto;
-    height: auto;
-    max-width: 80vw;   /* ⬅️ lebar maksimal 80% layar */
-    max-height: 80vh;  /* ⬅️ tinggi maksimal 80% layar */
+    max-width: 80vw;
+    max-height: 80vh;
     object-fit: contain;
-    display: block;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     transition: transform 0.2s ease-in-out;
+    pointer-events: auto;
 }
 
 .note-modal-image:hover {
-    transform: scale(1.02); /* efek dikit biar smooth pas hover */
+    transform: scale(1.01);
 }
 

@@ -29,7 +29,7 @@ function App() {
       title: noteData.title,
       content: noteData.content,
       color: noteData.color || "#fff",
-        image: noteData.image || null,  
+        image: noteData.image || null,    
       createdAt: new Date().toISOString(),
       isPinned: false,
     };
@@ -51,6 +51,10 @@ function App() {
       )
     );
   };
+
+    const closeModal = () => {
+        setSelectedImage(null);
+    };
 
   const filteredNotes = notes.filter(
     (note) =>
@@ -79,15 +83,16 @@ function App() {
         {selectedImage && (
             <div
                 className="note-modal"
-                onClick={() => setSelectedImage(null)}
+                onClick={(e) => {
+                    if (e.target === e.currentTarget) {
+                        closeModal();
+                    }
+                }}
             >
-                <div
-                    className="note-modal-content"
-                    onClick={(e) => e.stopPropagation()}
-                >
+                <div className="note-modal-content">
                     <img
                         src={selectedImage}
-                        alt="Full view"
+                        alt="Uploaded"
                         className="note-modal-image"
                     />
                 </div>
